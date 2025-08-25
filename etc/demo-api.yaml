@@ -1,0 +1,4 @@
+Name: demo-api
+Host: 0.0.0.0
+Port: 8888
+DataSource: postgres://postgres:123456@localhost:5432/go-zero-api-demo?sslmode=disable

@@ -1,0 +1,56 @@
+syntax = "v1"
+
+// ========== 数据结构 ==========
+type (
+	Request {
+		Name string `path:"name,options=you|me"`
+	}
+	Response {
+		Message string `json:"message"`
+	}
+	Account {
+		Id           int64  `json:"id"`
+		CreatedAt    string `json:"created_at,optional"` // 用 string 表达时间
+		UpdatedAt    string `json:"updated_at,optional"`
+		DeletedAt    string `json:"deleted_at,optional"`
+		Address      string `json:"address"`
+		AddressIndex string `json:"address_index"`
+		Comment      string `json:"comment,optional"`
+	}
+	CreateAccountReq {
+		Address      string `json:"address"`
+		AddressIndex string `json:"address_index"`
+		Comment      string `json:"comment,optional"`
+	}
+	UpdateAccountReq {
+		Id           int64  `json:"id"`
+		Address      string `json:"address,optional"`
+		AddressIndex string `json:"address_index,optional"`
+		Comment      string `json:"comment,optional"`
+	}
+	IdReq {
+		Id int64 `path:"id"`
+	}
+)
+
+// ========== Service 定义 ==========
+service demo-api {
+	@handler DemoHandler
+	get /from/:name (Request) returns (Response)
+
+	@handler CreateAccount
+	post /accounts (CreateAccountReq) returns (Account)
+
+	@handler GetAccount
+	get /accounts/:id (IdReq) returns (Account)
+
+	@handler UpdateAccount
+	put /accounts/:id (UpdateAccountReq) returns (Account)
+
+	@handler DeleteAccount
+	delete /accounts/:id (IdReq) returns (Response)
+
+	@handler ListAccounts
+	get /accounts returns ([]Account)
+}
+
